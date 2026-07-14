@@ -110,8 +110,8 @@
     background: #000;
     position: relative;
     line-height: 0;
-    /* IMPORTANT: avoid double scaling if Showit is scaling */
-    transform: none;
+    /* Windowed default: half size (960x540). Fullscreen JS overrides this. */
+    transform: scale(0.5);
     transform-origin: center center;
     /* visible allows glow to bleed outside wrapper */
     overflow: visible;
@@ -649,8 +649,8 @@
     <canvas id="virentEnergyBar"></canvas>
   </div>
 </div>
-<div id="oomooRunTimer" style="position: absolute; top: 8px; left: 8px; font-family: monospace; font-size: 14px; color: #3cffd0; text-shadow: 0 0 4px rgba(60, 255, 208, 0.5); pointer-events: none; user-select: none; z-index: 2147483647;">TIME 00:00.0</div>
-<div id="fpsCounter" style="position: absolute; top: 27px; left: 8px; font-family: monospace; font-size: 12px; color: rgba(175,245,255,0.96); text-shadow: 0 0 4px rgba(60, 255, 208, 0.38); pointer-events: none; user-select: none; z-index: 2147483647;">FPS: 0</div>
+<div id="oomooRunTimer" style="display: none; position: absolute; top: 8px; left: 8px; font-family: monospace; font-size: 14px; color: #3cffd0; text-shadow: 0 0 4px rgba(60, 255, 208, 0.5); pointer-events: none; user-select: none; z-index: 2147483647;">TIME 00:00.0</div>
+<div id="fpsCounter" style="display: none; position: absolute; top: 27px; left: 8px; font-family: monospace; font-size: 12px; color: rgba(175,245,255,0.96); text-shadow: 0 0 4px rgba(60, 255, 208, 0.38); pointer-events: none; user-select: none; z-index: 2147483647;">FPS: 0</div>
 <div id="oomooRunWaveCounter" style="position: absolute; top: 46px; left: 8px; font-family: monospace; font-size: 12px; color: rgba(175,245,255,0.96); text-shadow: 0 0 4px rgba(60, 255, 208, 0.38); pointer-events: none; user-select: none; z-index: 2147483647; display: none;">ED1 WAVE 1/23 ? 0 ED1</div>
 <script>
 // ===== HARD GLOBAL ROOT (never disappears) =====
@@ -148098,7 +148098,8 @@ function deactivateLevel3Bubble() {
         wrapper.style.position = "";
         wrapper.style.left = "";
         wrapper.style.top = "";
-        wrapper.style.transform = "none";
+        // Windowed: show at 960x540 (half of internal 1920x1080). Fullscreen path unchanged.
+        wrapper.style.transform = "scale(0.5)";
         wrapper.style.transformOrigin = "center center";
         return;
       }
