@@ -110,8 +110,9 @@
     background: #000;
     position: relative;
     line-height: 0;
-    /* Windowed default: half size (960x540). Fullscreen JS overrides this. */
-    transform: scale(0.5);
+    /* Windowed default: half size in layout (960x540). Showit measures layout, not CSS transform. */
+    zoom: 0.5;
+    transform: none;
     transform-origin: center center;
     /* visible allows glow to bleed outside wrapper */
     overflow: visible;
@@ -148098,9 +148099,12 @@ function deactivateLevel3Bubble() {
         wrapper.style.position = "";
         wrapper.style.left = "";
         wrapper.style.top = "";
-        // Windowed: show at 960x540 (half of internal 1920x1080). Fullscreen path unchanged.
-        wrapper.style.transform = "scale(0.5)";
+        // Windowed: zoom so layout is truly 960x540 (Showit/iframes measure layout size).
+        // Do not use transform:scale here — it leaves a 1920x1080 layout box and overflows Showit.
+        wrapper.style.zoom = "0.5";
+        wrapper.style.transform = "none";
         wrapper.style.transformOrigin = "center center";
+        try { syncCursorOverlayToGameRect(); } catch (_) {}
         return;
       }
       setGameDisplayFullscreenLayout(true);
@@ -148111,6 +148115,7 @@ function deactivateLevel3Bubble() {
       wrapper.style.position = "fixed";
       wrapper.style.left = "50%";
       wrapper.style.top = "50%";
+      wrapper.style.zoom = "1";
       wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
       wrapper.style.transformOrigin = "center center";
       try { syncCursorOverlayToGameRect(); } catch (_) {}
