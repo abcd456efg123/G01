@@ -83,20 +83,21 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    background: #000;
+    background: transparent; /* no black letterbox around the game frame */
     color: #3cffd0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     overflow: hidden; /* stops scrollbars inside the iframe */ 
   }
   body {
-    display: grid;
-    place-items: center; /* stable centering without 100vh issues */
+    /* Top-left anchor so Showit corner/edge drag crops flush (no recenter push-down) */
+    display: block;
   }
   html.oomoo-display-fullscreen,
   body.oomoo-display-fullscreen {
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
+    background: #000 !important;
   }
   body.oomoo-display-fullscreen {
     display: block !important;
@@ -110,11 +111,13 @@
     background: #000;
     position: relative;
     line-height: 0;
-    /* Windowed default: 1280x720 (2/3 of 1920x1080). Fullscreen JS overrides this. */
-    transform: scale(0.6666666667);
-    transform-origin: center center;
-    /* visible allows glow to bleed outside wrapper */
+    /* Windowed: true 1280x720 layout (Showit/iframe measure this). Fullscreen JS clears zoom. */
+    zoom: 0.6666666667;
+    transform: none;
+    transform-origin: top left;
+    /* Glow may bleed outside; zoom keeps measured windowed size at 1280x720 */
     overflow: visible;
+    border-radius: 8px;
     /* Atomic boot gate: keep the whole game as a black box until JS opts in. */
     visibility: hidden;
     opacity: 0;
@@ -148096,11 +148099,15 @@ function deactivateLevel3Bubble() {
         wrapper.style.width = "1920px";
         wrapper.style.height = "1080px";
         wrapper.style.position = "";
-        wrapper.style.left = "";
-        wrapper.style.top = "";
-        // Windowed: 1280x720 (2/3 of internal 1920x1080). Fullscreen path unchanged.
-        wrapper.style.transform = "scale(0.6666666667)";
-        wrapper.style.transformOrigin = "center center";
+        wrapper.style.left = "0";
+        wrapper.style.top = "0";
+        // Windowed: zoom so measured size is 1280x720, flush top-left (no black letterbox).
+        // Fullscreen path below is unchanged aside from clearing zoom.
+        wrapper.style.zoom = "0.6666666667";
+        wrapper.style.transform = "none";
+        wrapper.style.transformOrigin = "top left";
+        wrapper.style.overflow = "visible";
+        try { syncCursorOverlayToGameRect(); } catch (_) {}
         return;
       }
       setGameDisplayFullscreenLayout(true);
@@ -148111,8 +148118,10 @@ function deactivateLevel3Bubble() {
       wrapper.style.position = "fixed";
       wrapper.style.left = "50%";
       wrapper.style.top = "50%";
+      wrapper.style.zoom = "1";
       wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
       wrapper.style.transformOrigin = "center center";
+      wrapper.style.overflow = "visible";
       try { syncCursorOverlayToGameRect(); } catch (_) {}
     }
     function getMenuDisplayModeLabel(mode) {
