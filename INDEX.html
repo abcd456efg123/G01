@@ -89,8 +89,10 @@
     overflow: hidden; /* stops scrollbars inside the iframe */ 
   }
   body {
-    /* Top-left anchor so Showit corner/edge drag crops flush (no recenter push-down) */
+    /* Top-left game + just enough room for outer cyan glow (~20px blur @ zoom 2/3 ≈ 14px) */
     display: block;
+    box-sizing: border-box;
+    padding: 14px 0 0 14px;
   }
   html.oomoo-display-fullscreen,
   body.oomoo-display-fullscreen {
@@ -98,6 +100,7 @@
     height: 100% !important;
     overflow: hidden !important;
     background: #000 !important;
+    padding: 0 !important;
   }
   body.oomoo-display-fullscreen {
     display: block !important;
@@ -220,7 +223,10 @@
   }
   #neonBorderOverlay.active {
     border: 2px solid #3cffd0;
-    box-shadow: none;
+    box-shadow:
+      0 0 8px #3cffd0,
+      0 0 14px #3cffd0,
+      0 0 20px #3cffd0;
   }
   /* Shield System Bypass LED Overlay */
   :root { --led-cycle: 3.5s; --led-x: 0px; --led-y: 0px; }
