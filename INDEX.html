@@ -1,5 +1,5 @@
 <meta charset="UTF-8">
-<title>L5-EXIT-FIX-2026-06-08 Oomoo // Core Relic Offensive</title> 
+<title>OOMOO - THE BEGINNING</title> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
   // Debug logs OFF by default (saves FPS + clean console).
@@ -1315,8 +1315,8 @@
     playButton: "https://abcd456efg123.github.io/G01/PLay%20button.png",
     loadingScreenTag: "https://abcd456efg123.github.io/G01/Loading-screen-oomooverse-tag.png",
     menuGameTitle: "https://abcd456efg123.github.io/G01/Menu-game-title.png",
-    player: "https://abcd456efg123.github.io/G01/OOMGA-Ship.png",
-    playerFlash: "https://abcd456efg123.github.io/G01/OOMGA-Ship-flash.png",
+    player: "https://abcd456efg123.github.io/G01/oomga-ship.png",
+    playerFlash: "https://abcd456efg123.github.io/G01/oomga-ship-flash.png",
     playerRedLaserBeam: "https://abcd456efg123.github.io/G01/oomga-red-laser-beam.png",
     playerPurpleEmp: "https://abcd456efg123.github.io/G01/oomga-purple-emp.png",
     playerYellowBubble: "https://abcd456efg123.github.io/G01/oomga-yellow-bubble.png",
@@ -1342,10 +1342,6 @@
     laser:  "https://abcd456efg123.github.io/G01/OOMga%20laser%20shooting.png",
     core:   null,
     flash:  "https://abcd456efg123.github.io/G01/Laser-shooting-flash.png",
-    explosion1: "https://static.showit.co/file/So3-YlZpk4H41pqej1Hd4w/325171/explosion_1.png",
-    explosion2: "https://static.showit.co/file/So3-YlZpk4H41pqej1Hd4w/325171/explosion_1.png",
-    explosion3: "https://static.showit.co/file/dWec1UQFt-6SUFb3DUvzcw/325171/explosion_4.png",
-    explosion4: "https://static.showit.co/file/dU2R-xDrBCxPcZnwn8Ce7w/325171/explosion_3.png",
     enemyExplosion1: "https://static.showit.co/file/5bNnY7KUtgRTcDx48-Juzw/325171/enemy_explosion_1.png",
     enemyExplosion2: "https://static.showit.co/file/-olYE2pO9gMU7uvun47cag/325171/enemy_explosion_2.png",
     enemyExplosion3: "https://static.showit.co/file/-hT-fV1j2EUWuoYgchhWmw/325171/enemy_explosion_3.png",
@@ -2014,10 +2010,6 @@
       ? loadImageSmart(ASSETS.core).catch(() => (loadErrors.push("core"), null))
       : Promise.resolve(null)),
     loadImageSmart(ASSETS.flash).catch(() => (loadErrors.push("flash"), null)),
-    loadImageSmart(ASSETS.explosion1).catch(() => (loadErrors.push("explosion1"), null)),
-    loadImageSmart(ASSETS.explosion2).catch(() => (loadErrors.push("explosion2"), null)),
-    loadImageSmart(ASSETS.explosion3).catch(() => (loadErrors.push("explosion3"), null)),
-    loadImageSmart(ASSETS.explosion4).catch(() => (loadErrors.push("explosion4"), null)),
     loadImageSmart(ASSETS.enemyExplosion1).catch(() => (loadErrors.push("enemyExplosion1"), null)),
     loadImageSmart(ASSETS.enemyExplosion2).catch(() => (loadErrors.push("enemyExplosion2"), null)),
     loadImageSmart(ASSETS.enemyExplosion3).catch(() => (loadErrors.push("enemyExplosion3"), null)),
@@ -2102,7 +2094,6 @@
       menuArtImg, menuArtFlashesImg,
       playBtnImg,
       playerImg, playerFlashImg, playerRedLaserBeamImg, playerPurpleEmpImg, playerYellowBubbleImg, enemyImg, enemyFlashImg, enemy2Img, enemyEscortImg, enemyLaserImg, enemyDrone4Img, enemyDrone4FlashImg, laserImg, coreImg, flashImg,
-      ex1, ex2, ex3, ex4,
       enx1, enx2, enx3,
       level3BGImg,
       chainLockImg
@@ -2118,23 +2109,23 @@
       // World height = full PNG height for vertical scrolling
       level3WorldHeight = getLevel3WorldHeightPx();
     }
-    // Store Level 3 shield wall motor image globally (index 32, after chainLock at 29 + pole placeholders at 30-31)
-    window.__l3ShieldWallMotorImg = imgs[32];
-    // Store Level 3 wall shield images globally (indices 33-35)
-    window.__l3WallShield3rdImg = imgs[33];
-    window.__l3WallShield2ndImg = imgs[34];
-    window.__l3WallShield1stImg = imgs[35];
-    // Store Level 3 exit shield image globally (index 36)
-    window.__l3ExitShieldImg = imgs[36];
-    // Store Level 3 bottom-left panel images globally (indices 37-38)
-    window.__l3BottomLeftPanelImg = imgs[37];
-    window.__l3BottomLeftPanelCoverImg = imgs[38];
-    // Store Level 3 bottom-right panel images globally (indices 39-40)
-    window.__l3BottomRightPanelImg = imgs[39];
-    window.__l3BottomRightPanelCoverImg = imgs[40];
-    // Store weapon preview images globally (indices 41-42, after bottom-right panels at 39-40)
-    window.__weaponPreviewBlueImg = imgs[41];
-    window.__weaponPreviewRedImg = imgs[42];
+    // Store Level 3 shield wall motor image globally (index 28, after chainLock at 25 + pole placeholders at 26-27)
+    window.__l3ShieldWallMotorImg = imgs[28];
+    // Store Level 3 wall shield images globally (indices 29-31)
+    window.__l3WallShield3rdImg = imgs[29];
+    window.__l3WallShield2ndImg = imgs[30];
+    window.__l3WallShield1stImg = imgs[31];
+    // Store Level 3 exit shield image globally (index 32)
+    window.__l3ExitShieldImg = imgs[32];
+    // Store Level 3 bottom-left panel images globally (indices 33-34)
+    window.__l3BottomLeftPanelImg = imgs[33];
+    window.__l3BottomLeftPanelCoverImg = imgs[34];
+    // Store Level 3 bottom-right panel images globally (indices 35-36)
+    window.__l3BottomRightPanelImg = imgs[35];
+    window.__l3BottomRightPanelCoverImg = imgs[36];
+    // Store weapon preview images globally (indices 37-38, after bottom-right panels at 35-36)
+    window.__weaponPreviewBlueImg = imgs[37];
+    window.__weaponPreviewRedImg = imgs[38];
     // Store Enemy Drone 1 Phase 1 image globally for Level 3 static drones (already loaded as enemyImg at index 2)
     window.__l3EnemyDrone1Phase1Img = enemyImg;
     // Store Enemy Drone 1 Phase 2 image globally for Level 3 static drones (already loaded as enemyImg at index 2)
@@ -2193,9 +2184,9 @@
       }
     }
     // Calculate offset for asteroid frames (bulletproof against asset additions/removals)
-    const CORE_COUNT = 41;          // Everything before weapon preview images (through bottom-right panel cover at index 40)
+    const CORE_COUNT = 37;          // Everything before weapon preview images (through bottom-right panel cover at index 36)
     const WEAPON_PREVIEW_COUNT = 2; // Blue + red weapon preview images
-    let offset = CORE_COUNT + WEAPON_PREVIEW_COUNT; // 43 - asteroid frames start here
+    let offset = CORE_COUNT + WEAPON_PREVIEW_COUNT; // 39 - asteroid frames start here
     const asteroid3LoadedFrames = imgs.slice(offset, offset + ASTEROID3_FRAMES_URLS.length);
     offset += ASTEROID3_FRAMES_URLS.length;
     const asteroid4LoadedFrames = imgs.slice(offset, offset + ASTEROID4_FRAMES_URLS.length);
@@ -2255,7 +2246,6 @@
       menuArtImg, menuArtFlashesImg,
       playBtnImg,
       playerImg, playerFlashImg, playerRedLaserBeamImg, playerPurpleEmpImg, playerYellowBubbleImg, enemyImg, enemyFlashImg, enemy2Img, enemyEscortImg, enemyLaserImg, enemyDrone4Img, enemyDrone4FlashImg, laserImg, coreImg, flashImg,
-      explosionFrames: [ex1, ex2, ex3, ex4],
       enemyExplosionFrames: [enx1, enx2, enx3],
       asteroid3Frames: asteroid3LoadedFrames,
       asteroid4Frames: asteroid4LoadedFrames,
@@ -2289,7 +2279,7 @@
     if (!Array.isArray(state.ripples)) state.ripples = [];
     return state;
   }
-  /** OOMOOVERSE loading/menu tag: west-anchored with same edge gap as the old east placement. */
+  /** OOMOO - THE BEGINNING loading/menu tag: west-anchored with same edge gap as the old east placement. */
   const OOMOOVERSE_TAG_EDGE_GAP = 33;
   const OOMOOVERSE_TAG_ALPHA = 0.6;
   function drawOomooverseTag(drawCtx, offsetX, alpha, absoluteX) {
@@ -28299,6 +28289,18 @@ void main(){
   const ENEMY_GREEN_BLOB_CENTIPEDE_DIM = 3.9 * ENEMY_GREEN_BLOB_CENTIPEDE_SCALE;
   const ENEMY_GREEN_BLOB_CENTIPEDE_COUNT = 3;
   const ENEMY_GREEN_BLOB_CENTIPEDE_SPREAD = 0.22;
+  const ENEMY_GREEN_BLOB_DAMAGE_ED1 = 0.01;
+  const ENEMY_GREEN_BLOB_DAMAGE_ED4 = 0.03;
+  const ENEMY_GREEN_BLOB_DAMAGE_ED5 = 0.05;
+  const ENEMY_GREEN_BLOB_DAMAGE_CENTIPEDE = 0.10;
+  const BOSS_GUARD_KAMIKAZE_SHIELD_DAMAGE = 0.07;
+  function getEnemyGreenBlobDefaultDamage(kind) {
+    if (kind === "centipede") return ENEMY_GREEN_BLOB_DAMAGE_CENTIPEDE;
+    if (kind === "ed1") return ENEMY_GREEN_BLOB_DAMAGE_ED1;
+    if (kind === "ed5") return ENEMY_GREEN_BLOB_DAMAGE_ED5;
+    if (kind === "drone") return ENEMY_GREEN_BLOB_DAMAGE_ED4;
+    return 0.05;
+  }
   function getEnemyGreenBlobKindForEnemy(enemy) {
     if (!enemy) return "drone";
     if (enemy.patternType === "bossEscort") return "ed2";
@@ -28385,7 +28387,7 @@ void main(){
       wobble: (opts.wobble != null) ? opts.wobble : 0,
       squish: (opts.squish != null) ? opts.squish : 0.7,
       squishTime: 0,
-      damage: (opts.damage != null) ? opts.damage : 0.05,
+      damage: (opts.damage != null) ? opts.damage : getEnemyGreenBlobDefaultDamage(kind),
       renderStyle: "greenOrb",
       ed1Blob: true,
       orbRadius: radius,
@@ -28399,7 +28401,6 @@ void main(){
     if (kind === "centipede") {
       bullet.centipedeBlob = true;
       bullet.l8CentipedeBlob = true;
-      bullet.damage = (opts.damage != null) ? opts.damage : 0.10;
       if (opts.color) bullet.color = opts.color;
     }
     if (kind === "ed5") {
@@ -28438,6 +28439,7 @@ void main(){
         worldX: opts.worldX,
         worldY: opts.worldY,
         color: opts.color || "#61ff8f",
+        damage: opts.damage,
       });
     }
     return count;
@@ -28514,6 +28516,12 @@ void main(){
     window.ENEMY_GREEN_BLOB_ED1_DIM = ENEMY_GREEN_BLOB_ED1_DIM;
     window.ENEMY_GREEN_BLOB_ED2_RADIUS = ENEMY_GREEN_BLOB_ED2_RADIUS;
     window.ENEMY_GREEN_BLOB_ED2_DIM = ENEMY_GREEN_BLOB_ED2_DIM;
+    window.ENEMY_GREEN_BLOB_DAMAGE_ED1 = ENEMY_GREEN_BLOB_DAMAGE_ED1;
+    window.ENEMY_GREEN_BLOB_DAMAGE_ED4 = ENEMY_GREEN_BLOB_DAMAGE_ED4;
+    window.ENEMY_GREEN_BLOB_DAMAGE_ED5 = ENEMY_GREEN_BLOB_DAMAGE_ED5;
+    window.ENEMY_GREEN_BLOB_DAMAGE_CENTIPEDE = ENEMY_GREEN_BLOB_DAMAGE_CENTIPEDE;
+    window.BOSS_GUARD_KAMIKAZE_SHIELD_DAMAGE = BOSS_GUARD_KAMIKAZE_SHIELD_DAMAGE;
+    window.getEnemyGreenBlobDefaultDamage = getEnemyGreenBlobDefaultDamage;
     window.ED1_GREEN_BLOB_RADIUS = ENEMY_GREEN_BLOB_ED1_RADIUS;
     window.ED1_GREEN_BLOB_DIM = ENEMY_GREEN_BLOB_ED1_DIM;
     window.ED2_GREEN_BLOB_RADIUS = ENEMY_GREEN_BLOB_ED2_RADIUS;
@@ -28574,7 +28582,7 @@ void main(){
     menuArtImg, menuArtFlashesImg,
     playBtnImg,
     playerImg, playerFlashImg, playerRedLaserBeamImg, playerPurpleEmpImg, playerYellowBubbleImg, enemyImg, enemyFlashImg, enemy2Img, enemyEscortImg, enemyLaserImg, enemyDrone4Img, enemyDrone4FlashImg, laserImg, coreImg, flashImg,
-    explosionFrames, enemyExplosionFrames,
+    enemyExplosionFrames,
     asteroid3Frames, asteroid2Frames, asteroid4Frames, asteroid5Frames, asteroid6Frames
   }) {
     lastTime = performance.now();
@@ -36518,14 +36526,14 @@ void main(){
       const _inL8Tunnel = !!(typeof window !== "undefined" && window.__l8TunnelMode);
       const _inL8ExitDarkShip = !!(typeof window !== "undefined" && window.__l8ExitMode && window.__l8FreeRoamActive);
       const _inL8DarkShip = _inL8Tunnel || _inL8ExitDarkShip;
-      // L5 carrier exit uses normal oomga-ship / oomga-ship-flash (not dark).
-      const _useDarkShip = _inL8DarkShip;
+      // Levels 1-7: oomga-ship / oomga-ship-flash. Level 8 tunnel/exit only: dark ship set.
+      const _useDarkShip = (typeof currentLevel === "number" && currentLevel === 8) && _inL8DarkShip;
       const _tunnelOomga = _useDarkShip ? window.__l8TunnelOomgaImg : null;
       const _tunnelOomgaFlash = _useDarkShip ? window.__l8TunnelOomgaFlashImg : null;
       const _tunnelOomgaReady = !!(_tunnelOomga && _tunnelOomga.complete && (_tunnelOomga.naturalWidth || _tunnelOomga.width));
       const _tunnelOomgaFlashReady = !!(_tunnelOomgaFlash && _tunnelOomgaFlash.complete && (_tunnelOomgaFlash.naturalWidth || _tunnelOomgaFlash.width));
-      const _shipBaseImg = _tunnelOomgaReady ? _tunnelOomga : player.img;
-      const _shipFlashImg = _tunnelOomgaFlashReady ? _tunnelOomgaFlash : player.imgFlash;
+      const _shipBaseImg = (_useDarkShip && _tunnelOomgaReady) ? _tunnelOomga : player.img;
+      const _shipFlashImg = (_useDarkShip && _tunnelOomgaFlashReady) ? _tunnelOomgaFlash : player.imgFlash;
       const _redLaserBeamImg = _useDarkShip
         ? ((typeof playerRedLaserBeamNightImg !== "undefined") ? playerRedLaserBeamNightImg : null)
         : player.imgRedLaserBeam;
@@ -37989,6 +37997,9 @@ void main(){
       ctx.drawImage(img, -pivotX, -pivotY, w, h);
       ctx.restore();
     }
+    const MENU_ART2_ENTRY_DELAY_MS = 300;
+    const MENU_ART2_ENTRY_DUR_MS = 800;
+    const MENU_ART3_ENTRY_DUR_MS = Math.round(MENU_ART2_ENTRY_DUR_MS * 1.33);
     function drawMenuArt3TentacleBack() {
       try {
         const img = (typeof menuArt3Img !== "undefined") ? menuArt3Img : null;
@@ -37996,10 +38007,19 @@ void main(){
         const w = img.naturalWidth || img.width;
         const h = img.naturalHeight || img.height;
         const now = performance.now();
+        if (!window.__menuStartupMs) window.__menuStartupMs = now;
+        const _m3EntryDelay = 0;
+        const _m3EntryDur = MENU_ART3_ENTRY_DUR_MS;
+        const _m3Elapsed = Math.max(0, now - window.__menuStartupMs - _m3EntryDelay);
+        const _m3T = Math.min(1, _m3Elapsed / _m3EntryDur);
+        const _m3Ease = 1 - Math.pow(1 - _m3T, 3);
+        const _m3StartX = -w - 77 - 48;
+        const _m3FinalX = -77;
+        const _m3EntryX = _m3FinalX + (_m3StartX - _m3FinalX) * (1 - _m3Ease);
         const exitX = (typeof __oomooMenuScene !== "undefined" && __oomooMenuScene)
           ? (__oomooMenuScene.art3OffsetX || 0)
           : 0;
-        const x = -77 + exitX;
+        const x = _m3EntryX + exitX;
         const y = -77;
         const rot = getMenuSeaweedSwayRad("m3", now);
         ctx.save();
@@ -38015,8 +38035,8 @@ void main(){
       // Startup slide-in: Oomga slides in from bottom over 800ms, 300ms delay
       const _mnow2 = performance.now();
       if (!window.__menuStartupMs) window.__menuStartupMs = _mnow2;
-      const _m2Elapsed = Math.max(0, (_mnow2 - window.__menuStartupMs) - 300);
-      const _m2Dur = 800;
+      const _m2Elapsed = Math.max(0, (_mnow2 - window.__menuStartupMs) - MENU_ART2_ENTRY_DELAY_MS);
+      const _m2Dur = MENU_ART2_ENTRY_DUR_MS;
       const _m2T = Math.min(1, _m2Elapsed / _m2Dur);
       const _m2Ease = 1 - Math.pow(1 - _m2T, 3); // easeOutCubic
       const _m2SlideY = (1 - _m2Ease) * (GAME_HEIGHT + layout.h + scaleUiY(100));
@@ -38037,11 +38057,20 @@ void main(){
         const w = img.naturalWidth || img.width;
         const h = img.naturalHeight || img.height;
         const now = performance.now();
+        if (!window.__menuStartupMs) window.__menuStartupMs = now;
+        const _m4EntryDelay = 150;
+        const _m4EntryDur = 800;
+        const _m4Elapsed = Math.max(0, now - window.__menuStartupMs - _m4EntryDelay);
+        const _m4T = Math.min(1, _m4Elapsed / _m4EntryDur);
+        const _m4Ease = 1 - Math.pow(1 - _m4T, 3);
+        const _m4StartX = -w - 48;
+        const _m4FinalX = 0;
+        const _m4EntryX = _m4FinalX + (_m4StartX - _m4FinalX) * (1 - _m4Ease);
         const exitX = (typeof __oomooMenuScene !== "undefined" && __oomooMenuScene)
           ? (__oomooMenuScene.art4OffsetX || 0)
           : 0;
-        const x = exitX;
-        const y = 0;
+        const x = _m4EntryX + exitX;
+        const y = -33;
         const rot = getMenuSeaweedSwayRad("m4", now);
         ctx.save();
         ctx.globalAlpha = 0.96;
@@ -38051,8 +38080,6 @@ void main(){
     }
     // Menu-game-title: top-left of PNG = top-left of canvas. Slides in from west
     // as soon as menu-art-2 lands; exits west with art2OffsetX on PLAY.
-    const MENU_ART2_ENTRY_DELAY_MS = 300;
-    const MENU_ART2_ENTRY_DUR_MS = 800;
     const MENU_GAME_TITLE_SLIDE_MS = 720;
     function drawMenuGameTitle() {
       try {
@@ -55135,6 +55162,13 @@ octx.globalCompositeOperation = 'source-over';
       };
       player.x = GAME_WIDTH / 2;
       player.y = GAME_HEIGHT + player.height; // Start off-screen at south
+      try {
+        if (typeof player !== "undefined" && player) {
+          player.alpha = 1;
+          player.scale = 1;
+          player.renderAlpha = 1;
+        }
+      } catch (_) {}
       try { if (typeof playerCanLook !== "undefined") playerCanLook = false; } catch (_) {}
     }
     function updateIntro() {
@@ -55197,6 +55231,13 @@ octx.globalCompositeOperation = 'source-over';
           }
           state = "playing";
           if (introMode === "campaign" && currentLevel === 1) {
+            try {
+              if (typeof player !== "undefined" && player) {
+                player.alpha = 1;
+                player.scale = 1;
+                player.renderAlpha = 1;
+              }
+            } catch (_) {}
             try {
               if (typeof L1Intro !== "undefined" && L1Intro && typeof L1Intro.onLevel1Start === "function") {
                 L1Intro.onLevel1Start(performance.now());
@@ -71401,7 +71442,7 @@ const ESCORT_TARGET_Y = 170;    // ====== ENEMY SPACING CONTROL ======
                 angle: finalAngle + Math.PI / 2,
                 owner: enemy.id,
                 nearMiss: false, wobble: 0, squish: 0.7, squishTime: 0,
-                damage: 0.05, renderStyle: "greenOrb", ed1Blob: true,
+                damage: ENEMY_GREEN_BLOB_DAMAGE_CENTIPEDE, renderStyle: "greenOrb", ed1Blob: true,
                 centipedeBlob: true, l8CentipedeBlob: true,
                 orbRadius: _centSpec.radius, color: "#61ff8f",
               });
@@ -71494,7 +71535,7 @@ const ESCORT_TARGET_Y = 170;    // ====== ENEMY SPACING CONTROL ======
           width: isLevel4ED1Shot ? Math.max(LASER_WIDTH, 9) : LASER_WIDTH,
           height: isLevel4ED1Shot ? Math.max(LASER_HEIGHT, 28) : LASER_HEIGHT,
           angle: finalAngle + Math.PI / 2, // bullet sprite rotation
-          damage: 0.05, // 5% shield damage for drone1/openingCurve/openingSym
+          damage: isED4 ? ENEMY_GREEN_BLOB_DAMAGE_ED4 : (isAnyED1 ? ENEMY_GREEN_BLOB_DAMAGE_ED1 : 0.05),
           isLevel4ED1Bullet: isLevel4ED1Shot,
           renderStyle: undefined,
           ed1Blob: false,
@@ -99480,7 +99521,7 @@ function updateSouthBossGuardKamikazeSystem(delta) {
       P.vx = (P.vx || 0) + (dx / dist) * pushSpeed;
       P.vy = (P.vy || 0) + (dy / dist) * pushSpeed;
       if (typeof applyShieldHit === "function") {
-        applyShieldHit(0.33, { bypassInvuln: true });
+        applyShieldHit(BOSS_GUARD_KAMIKAZE_SHIELD_DAMAGE, { bypassInvuln: true });
       }
     }
     spawnGreenMist(hitX, hitY);
@@ -103567,7 +103608,6 @@ function fireEnemyBullet(drone) {
       owner: (drone.id != null ? drone.id : drone.index),
       kind: "drone",
       worldY: muzzleWorldY,
-      damage: 0.1,
       extra: {
         reflected: false,
         l3Ed4GreenBlob: true,
@@ -103590,7 +103630,7 @@ function fireEnemyBullet(drone) {
     ed1Blob: true,
     l3Ed4GreenBlob: true,
     orbRadius: window.ED1_GREEN_BLOB_RADIUS,
-    damage: 0.1
+    damage: ENEMY_GREEN_BLOB_DAMAGE_ED4
   });
   }
 }
@@ -111160,7 +111200,7 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
         }
       } catch (_) {}
       // Oomga death VFX: blue-fire ship-side explosion + splatter (no PNG explosion frames).
-      const __useBlueFire = (mode === "death" || mode === "gameover");
+      const __useBlueFire = (mode === "death" || mode === "gameover" || mode === "escortRespawn");
       if (__useBlueFire) {
         let fx = null;
         try {
@@ -111241,14 +111281,6 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
         };
         return;
       }
-      // Legacy frame-based explosion (non-death modes)
-      playerExplosion = {
-        x: player.x,
-        y: player.y,
-        frameIndex: 0,
-        timer: 0,
-        frameDuration: 90
-      };
     }
     function updatePlayerExplosion(delta) {
       if (!playerExplosion) return;
@@ -111327,17 +111359,6 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
           __finishExplosion();
         }
         return;
-      }
-      // Legacy frame-based explosion
-      playerExplosion.timer += delta;
-      while (playerExplosion.timer >= playerExplosion.frameDuration) {
-        playerExplosion.timer -= playerExplosion.frameDuration;
-        playerExplosion.frameIndex++;
-        if (playerExplosion.frameIndex >= explosionFrames.length) {
-          // explosion finished
-          __finishExplosion();
-          break;
-        }
       }
     }
     // ------------------------------------------------------------------
@@ -111708,13 +111729,6 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
         ctx.restore();
         return;
       }
-      const frame = explosionFrames[playerExplosion.frameIndex];
-      if (!frame) return;
-      const size = player.width * 1.6;
-      ctx.save();
-      ctx.translate(playerExplosion.x, playerExplosion.y);
-      ctx.drawImage(frame, -size / 2, -size / 2, size, size);
-      ctx.restore();
     }
     function spawnEnemyExplosion(x, y, width, height) {
       // Spatialized destruction sound (proximity volume falloff)
@@ -126394,6 +126408,19 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
     }
     function isOomgaTorchHudLocked() {
       try {
+        if (typeof currentLevel !== "undefined" && currentLevel === 1) {
+          const phase = (typeof openingPhase !== "undefined") ? openingPhase : null;
+          const openingTorchLocked = !!(
+            phase === "awaitDialogueClose" ||
+            phase === "curveMove" ||
+            phase === "curvePause" ||
+            (typeof openingDialogueActive !== "undefined" && openingDialogueActive)
+          );
+          if (openingTorchLocked) {
+            if (typeof window !== "undefined" && window.__oomgaTorchOn) forceOomgaTorchOff();
+            return true;
+          }
+        }
         const l3ObjShieldLocked = !!(typeof window.isL3ObjectiveBubbleShieldLocked === "function" && window.isL3ObjectiveBubbleShieldLocked());
         // L8 exit shield-badge lock must NOT block torch — torch is usable as soon as
         // exit free roam starts (shield stays locked separately via l8_isExitBubbleShieldLocked).
@@ -135424,6 +135451,8 @@ function deactivateLevel3Bubble() {
           window.__l6FreeRoamActive = false;
           window.__l8AsteroidActive = false;
           window.__l8IntroMode = false;
+          window.__l8TunnelMode = false;
+          window.__l8ExitMode = false;
           window.__l8FreeRoamActive = false;
           try { if (typeof l8_resetSouthCameraClampState === "function") l8_resetSouthCameraClampState(); } catch (_) {}
           window.__l8CracksIntroFired = false;
@@ -135463,6 +135492,13 @@ function deactivateLevel3Bubble() {
       } catch (_) {}
       resetElectricWebSystem();
   try { if (typeof __resetAmbientAndMusicState === "function") __resetAmbientAndMusicState(); } catch (_) {}
+      try {
+        if (typeof player !== "undefined" && player) {
+          player.alpha = 1;
+          player.scale = 1;
+          player.renderAlpha = 1;
+        }
+      } catch (_) {}
       // Reset Level 2->Level 3 shoot lock
       level2ShootLockedUntilGooEscape = false;
       level2ShootLockArmed = false;
@@ -136888,7 +136924,7 @@ function deactivateLevel3Bubble() {
       if (isPlayerImpact) {
         try {
           if (typeof triggerOomgaCollisionHudShake === "function") triggerOomgaCollisionHudShake(1000, 2.0);
-          if (typeof applyShieldHit === "function") applyShieldHit();
+          if (typeof applyShieldHit === "function") applyShieldHit(BOSS_GUARD_KAMIKAZE_SHIELD_DAMAGE);
           if ((typeof bubbleShieldActive === "undefined" || !bubbleShieldActive) && (typeof bubbleShieldMode === "undefined" || bubbleShieldMode === "off")) {
             try {
               if (typeof spawnPlayerImpactScorchMark === "function") spawnPlayerImpactScorchMark(cx, cy, "#ff9d52");
@@ -160178,17 +160214,9 @@ drawL3VerticalSideSlimeTubeWithBottomGaps(slimeTube2D, ctx, 0, tubeTopY + topOff
                   }
                 }
               } catch (_eport) {}
-              // Menu-art-1 carryover must draw BEHIND the player
-              {
-                const __menuArtCarryover = shouldDrawMenuArtCarryoverInLevel1();
-                if (__menuArtCarryover) {
-                  try { drawMultiplierTierFlash(); } catch (_flerr) {}
-                  try { drawMenuArtTop(); } catch (_) {}
-                }
-                if (!__menuArtCarryover) {
-                  try { drawMultiplierTierFlash(); } catch (_flerr) {}
-                }
-              }
+              // Multiplier flash stays in the world layer; Menu-art-1 is drawn later
+              // (after vignette) so it stays in front of the vignette like the main menu.
+              try { drawMultiplierTierFlash(); } catch (_flerr) {}
               if (currentLevel === 4) {
                 drawAsteroids(isLevel4ClusterAsteroid);
               }
@@ -161414,6 +161442,12 @@ drawL3VerticalSideSlimeTubeWithBottomGaps(slimeTube2D, ctx, 0, tubeTopY + topOff
             }
           } catch (_ePluto) {}
           try { drawGameplayLensOverlay(); } catch (e) {}
+          // Menu-art-1 Level 1 carryover: keep above vignette (same stacking as main menu / intro).
+          try {
+            if (typeof shouldDrawMenuArtCarryoverInLevel1 === "function" && shouldDrawMenuArtCarryoverInLevel1()) {
+              drawMenuArtTop();
+            }
+          } catch (_) {}
           // 9. HUD and messages
           if (currentLevel === 7) drawEnemyDebris("frontTransporter");
           // Dust streaks appear over pure star/parallax backgrounds.
