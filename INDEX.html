@@ -1308,15 +1308,21 @@
     menuLayer2: "https://abcd456efg123.github.io/G01/Menu-art-1.png",
     menuLayer3: "https://static.showit.co/file/LtNlHRJWezZ0OzvFmwa5Yg/325171/background_layer_3_oomga.png",
     menuArt: "https://abcd456efg123.github.io/G01/Menu-art-2.png",
+    menuArt3: "https://abcd456efg123.github.io/G01/Menu-art-3.png",
+    menuArt4: "https://abcd456efg123.github.io/G01/Menu-art-4.png",
     // disabled: no flicker, static menu art only
     menuArtFlashes: null,
     playButton: "https://abcd456efg123.github.io/G01/PLay%20button.png",
     loadingScreenTag: "https://abcd456efg123.github.io/G01/Loading-screen-oomooverse-tag.png",
+    menuGameTitle: "https://abcd456efg123.github.io/G01/Menu-game-title.png",
     player: "https://abcd456efg123.github.io/G01/OOMGA-Ship.png",
     playerFlash: "https://abcd456efg123.github.io/G01/OOMGA-Ship-flash.png",
     playerRedLaserBeam: "https://abcd456efg123.github.io/G01/oomga-red-laser-beam.png",
     playerPurpleEmp: "https://abcd456efg123.github.io/G01/oomga-purple-emp.png",
     playerYellowBubble: "https://abcd456efg123.github.io/G01/oomga-yellow-bubble.png",
+    playerRedLaserBeamNight: "https://abcd456efg123.github.io/G01/oomga-red-laser-beam-night.png",
+    playerPurpleEmpNight: "https://abcd456efg123.github.io/G01/oomga-purple-emp-night.png",
+    playerYellowBubbleNight: "https://abcd456efg123.github.io/G01/oomga-yellow-bubble-night.png",
     enemy:  "https://abcd456efg123.github.io/G01/Enemy-Drone-1.png",
     enemyFlash: "https://abcd456efg123.github.io/G01/Enemy-Drone-1-Flash.png",
     enemyDrone1Night: "https://abcd456efg123.github.io/G01/Enemy-drone-1-night.png",
@@ -1672,6 +1678,42 @@
     loadImageSmart(ASSETS.loadingScreenTag)
       .then((img) => { loadingScreenTagImg = img; })
       .catch(() => { loadErrors.push("loadingScreenTag"); });
+  }
+  let menuGameTitleImg = null;
+  if (ASSETS.menuGameTitle) {
+    loadImageSmart(ASSETS.menuGameTitle)
+      .then((img) => { menuGameTitleImg = img; })
+      .catch(() => { loadErrors.push("menuGameTitle"); });
+  }
+  let menuArt3Img = null;
+  if (ASSETS.menuArt3) {
+    loadImageSmart(ASSETS.menuArt3)
+      .then((img) => { menuArt3Img = img; })
+      .catch(() => { loadErrors.push("menuArt3"); });
+  }
+  let menuArt4Img = null;
+  if (ASSETS.menuArt4) {
+    loadImageSmart(ASSETS.menuArt4)
+      .then((img) => { menuArt4Img = img; })
+      .catch(() => { loadErrors.push("menuArt4"); });
+  }
+  let playerRedLaserBeamNightImg = null;
+  if (ASSETS.playerRedLaserBeamNight) {
+    loadImageSmart(ASSETS.playerRedLaserBeamNight)
+      .then((img) => { playerRedLaserBeamNightImg = img; })
+      .catch(() => { loadErrors.push("playerRedLaserBeamNight"); });
+  }
+  let playerPurpleEmpNightImg = null;
+  if (ASSETS.playerPurpleEmpNight) {
+    loadImageSmart(ASSETS.playerPurpleEmpNight)
+      .then((img) => { playerPurpleEmpNightImg = img; })
+      .catch(() => { loadErrors.push("playerPurpleEmpNight"); });
+  }
+  let playerYellowBubbleNightImg = null;
+  if (ASSETS.playerYellowBubbleNight) {
+    loadImageSmart(ASSETS.playerYellowBubbleNight)
+      .then((img) => { playerYellowBubbleNightImg = img; })
+      .catch(() => { loadErrors.push("playerYellowBubbleNight"); });
   }
   let __bootLoadTotal = 0;
   let __bootLoadDone = 0;
@@ -2247,6 +2289,31 @@
     if (!Array.isArray(state.ripples)) state.ripples = [];
     return state;
   }
+  /** OOMOOVERSE loading/menu tag: west-anchored with same edge gap as the old east placement. */
+  const OOMOOVERSE_TAG_EDGE_GAP = 33;
+  const OOMOOVERSE_TAG_ALPHA = 0.6;
+  function drawOomooverseTag(drawCtx, offsetX, alpha, absoluteX) {
+    try {
+      if (!drawCtx || !loadingScreenTagImg || !(loadingScreenTagImg.naturalWidth > 0)) return false;
+      const tagW = loadingScreenTagImg.naturalWidth;
+      const tagH = loadingScreenTagImg.naturalHeight;
+      const tagX = Number.isFinite(absoluteX)
+        ? absoluteX
+        : (OOMOOVERSE_TAG_EDGE_GAP + (Number.isFinite(offsetX) ? offsetX : 0));
+      const tagY = GAME_HEIGHT - tagH - OOMOOVERSE_TAG_EDGE_GAP;
+      if (tagX + tagW <= 0) return false;
+      const a = Math.max(0, Math.min(1, Number.isFinite(alpha) ? alpha : OOMOOVERSE_TAG_ALPHA));
+      if (a <= 0.001) return false;
+      drawCtx.save();
+      drawCtx.globalAlpha = a;
+      drawCtx.drawImage(loadingScreenTagImg, tagX, tagY, tagW, tagH);
+      drawCtx.restore();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+  try { if (typeof window !== "undefined") window.drawOomooverseTag = drawOomooverseTag; } catch (_) {}
   function drawLoading() {
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     const nowMs = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
@@ -2432,18 +2499,13 @@
     }
     if (loadingScreenTagImg && loadingScreenTagImg.naturalWidth > 0) {
       const tagW = loadingScreenTagImg.naturalWidth;
-      const tagH = loadingScreenTagImg.naturalHeight;
-      const tagFinalX = GAME_WIDTH - tagW - 33;
-      const tagY = GAME_HEIGHT - tagH - 33;
+      const tagFinalX = OOMOOVERSE_TAG_EDGE_GAP;
       const TAG_SLIDE_MS = 720;
       const tagSlideT = Math.max(0, Math.min(1, bootElapsed / TAG_SLIDE_MS));
       const tagSlideEase = 1 - Math.pow(1 - tagSlideT, 3);
-      const tagStartX = GAME_WIDTH + 28;
+      const tagStartX = -tagW - 28;
       const tagX = tagFinalX + (tagStartX - tagFinalX) * (1 - tagSlideEase);
-      ctx.save();
-      ctx.globalAlpha = 0.5 * tagSlideEase;
-      ctx.drawImage(loadingScreenTagImg, tagX, tagY, tagW, tagH);
-      ctx.restore();
+      drawOomooverseTag(ctx, 0, OOMOOVERSE_TAG_ALPHA * tagSlideEase, tagX);
     }
     ctx.restore();
   }
@@ -36464,24 +36526,31 @@ void main(){
       const _tunnelOomgaFlashReady = !!(_tunnelOomgaFlash && _tunnelOomgaFlash.complete && (_tunnelOomgaFlash.naturalWidth || _tunnelOomgaFlash.width));
       const _shipBaseImg = _tunnelOomgaReady ? _tunnelOomga : player.img;
       const _shipFlashImg = _tunnelOomgaFlashReady ? _tunnelOomgaFlash : player.imgFlash;
+      const _redLaserBeamImg = _useDarkShip
+        ? ((typeof playerRedLaserBeamNightImg !== "undefined") ? playerRedLaserBeamNightImg : null)
+        : player.imgRedLaserBeam;
+      const _purpleEmpImg = _useDarkShip
+        ? ((typeof playerPurpleEmpNightImg !== "undefined") ? playerPurpleEmpNightImg : null)
+        : player.imgPurpleEmp;
+      const _yellowBubbleImg = _useDarkShip
+        ? ((typeof playerYellowBubbleNightImg !== "undefined") ? playerYellowBubbleNightImg : null)
+        : player.imgYellowBubble;
       const usingFlash = (currentTime - lastShotAt) <= FLASH_DURATION && _shipFlashImg
-        && (_useDarkShip ? _tunnelOomgaFlashReady : ((_shipWm === "blueLaser") && player.imgFlash));
+        && (_useDarkShip ? (_tunnelOomgaFlashReady && _shipWm === "blueLaser") : ((_shipWm === "blueLaser") && player.imgFlash));
       let imgToDraw = usingFlash ? _shipFlashImg : _shipBaseImg;
-      if (!_useDarkShip) {
-        if (_shipWm === "redLaser" && typeof redLaser !== "undefined" && redLaser && player.imgRedLaserBeam) {
-          if (redLaser.state === "charging") {
-            const _chgT = Math.max(0, Math.min(1, (_shipNow - (redLaser.chargeStartTime || 0)) / Math.max(1, redLaser.chargeDuration || 3000)));
-            imgRedLaserOverlay = player.imgRedLaserBeam;
-            redLaserOverlayAlpha = _chgT * 0.7;
-          } else if (redLaser.state === "firing") {
-            imgRedLaserOverlay = player.imgRedLaserBeam;
-            redLaserOverlayAlpha = 1;
-          }
-        } else if (_shipWm === "empLaser" && player.imgPurpleEmp && (_shipNow - lastShotAt) <= FLASH_DURATION) {
-          imgToDraw = player.imgPurpleEmp;
-        } else if (_shipWm === "cyberTakeoverLaser" && player.imgYellowBubble && (_shipNow - lastShotAt) <= FLASH_DURATION) {
-          imgToDraw = player.imgYellowBubble;
+      if (_shipWm === "redLaser" && typeof redLaser !== "undefined" && redLaser && _redLaserBeamImg) {
+        if (redLaser.state === "charging") {
+          const _chgT = Math.max(0, Math.min(1, (_shipNow - (redLaser.chargeStartTime || 0)) / Math.max(1, redLaser.chargeDuration || 3000)));
+          imgRedLaserOverlay = _redLaserBeamImg;
+          redLaserOverlayAlpha = _chgT * 0.7;
+        } else if (redLaser.state === "firing") {
+          imgRedLaserOverlay = _redLaserBeamImg;
+          redLaserOverlayAlpha = 1;
         }
+      } else if (_shipWm === "empLaser" && _purpleEmpImg && (_shipNow - lastShotAt) <= FLASH_DURATION) {
+        imgToDraw = _purpleEmpImg;
+      } else if (_shipWm === "cyberTakeoverLaser" && _yellowBubbleImg && (_shipNow - lastShotAt) <= FLASH_DURATION) {
+        imgToDraw = _yellowBubbleImg;
       }
       if (!imgToDraw) return;
       // 4. Draw propulsion beam first so it appears "behind" the ship
@@ -37891,6 +37960,54 @@ void main(){
         isMenuArtCarryoverVisible()
       );
     }
+    const MENU_SEAWEED_SWAY = {
+      m3: { periodMs: 4600, amplitudeDeg: 1.54, phase: 0.0 },
+      m2: { periodMs: 6200, amplitudeDeg: 0.65, phase: 1.35 },
+      m4: { periodMs: 3400, amplitudeDeg: 1.54, phase: 2.7 }
+    };
+    const MENU_ART2_SWAY_BLEED_X = 28;
+    const MENU_ART2_SWAY_BLEED_Y = 28;
+    function getMenuSeaweedSwayRad(layerKey, nowMs) {
+      const cfg = MENU_SEAWEED_SWAY[layerKey];
+      if (!cfg) return 0;
+      const t = (nowMs / 1000) * ((2 * Math.PI) / (cfg.periodMs / 1000)) + cfg.phase;
+      return Math.sin(t) * (cfg.amplitudeDeg * Math.PI / 180);
+    }
+    function getMenuArt2SwayRad(nowMs, layout) {
+      const raw = getMenuSeaweedSwayRad("m2", nowMs);
+      if (!layout) return raw;
+      const maxWestRad = Math.asin(Math.min(1, MENU_ART2_SWAY_BLEED_X / Math.max(1, layout.h)));
+      const maxSouthRad = Math.asin(Math.min(1, MENU_ART2_SWAY_BLEED_Y / Math.max(1, layout.w)));
+      const maxRad = Math.min(maxWestRad, maxSouthRad);
+      return Math.max(-maxRad, Math.min(maxRad, raw));
+    }
+    function drawMenuArtWithSway(img, x, y, w, h, pivotX, pivotY, rotRad) {
+      if (!img || !((img.naturalWidth || img.width) > 0)) return;
+      ctx.save();
+      ctx.translate(x + pivotX, y + pivotY);
+      ctx.rotate(rotRad);
+      ctx.drawImage(img, -pivotX, -pivotY, w, h);
+      ctx.restore();
+    }
+    function drawMenuArt3TentacleBack() {
+      try {
+        const img = (typeof menuArt3Img !== "undefined") ? menuArt3Img : null;
+        if (!img || !((img.naturalWidth || img.width) > 0)) return;
+        const w = img.naturalWidth || img.width;
+        const h = img.naturalHeight || img.height;
+        const now = performance.now();
+        const exitX = (typeof __oomooMenuScene !== "undefined" && __oomooMenuScene)
+          ? (__oomooMenuScene.art3OffsetX || 0)
+          : 0;
+        const x = -77 + exitX;
+        const y = -77;
+        const rot = getMenuSeaweedSwayRad("m3", now);
+        ctx.save();
+        ctx.globalAlpha = 0.96;
+        drawMenuArtWithSway(img, x, y, w, h, 0, 0, rot);
+        ctx.restore();
+      } catch (_) {}
+    }
     function drawMenuArtBottomLeft() {
       if (!menuBackground.art) return;
       const layout = getMenuArtBottomLeftLayout();
@@ -37903,14 +38020,76 @@ void main(){
       const _m2T = Math.min(1, _m2Elapsed / _m2Dur);
       const _m2Ease = 1 - Math.pow(1 - _m2T, 3); // easeOutCubic
       const _m2SlideY = (1 - _m2Ease) * (GAME_HEIGHT + layout.h + scaleUiY(100));
-      const artX = layout.x + ((__oomooMenuScene && __oomooMenuScene.art2OffsetX) || 0);
-      const artY = layout.y + ((__oomooMenuScene && __oomooMenuScene.art2OffsetY) || 0) + _m2SlideY;
+      const artX = layout.x - MENU_ART2_SWAY_BLEED_X + ((__oomooMenuScene && __oomooMenuScene.art2OffsetX) || 0);
+      const artY = layout.y + MENU_ART2_SWAY_BLEED_Y + ((__oomooMenuScene && __oomooMenuScene.art2OffsetY) || 0) + _m2SlideY;
+      const rot = getMenuArt2SwayRad(_mnow2, layout);
       ctx.save();
       ctx.shadowColor = "rgba(70, 255, 150, 0.34)";
       ctx.shadowBlur = 14;
       ctx.globalAlpha = 0.96;
-      safeDrawImage(ctx, menuBackground.art, artX, artY, layout.w, layout.h);
+      drawMenuArtWithSway(menuBackground.art, artX, artY, layout.w, layout.h, 0, layout.h, rot);
       ctx.restore();
+    }
+    function drawMenuArt4TentacleFront() {
+      try {
+        const img = (typeof menuArt4Img !== "undefined") ? menuArt4Img : null;
+        if (!img || !((img.naturalWidth || img.width) > 0)) return;
+        const w = img.naturalWidth || img.width;
+        const h = img.naturalHeight || img.height;
+        const now = performance.now();
+        const exitX = (typeof __oomooMenuScene !== "undefined" && __oomooMenuScene)
+          ? (__oomooMenuScene.art4OffsetX || 0)
+          : 0;
+        const x = exitX;
+        const y = 0;
+        const rot = getMenuSeaweedSwayRad("m4", now);
+        ctx.save();
+        ctx.globalAlpha = 0.96;
+        drawMenuArtWithSway(img, x, y, w, h, 0, 0, rot);
+        ctx.restore();
+      } catch (_) {}
+    }
+    // Menu-game-title: top-left of PNG = top-left of canvas. Slides in from west
+    // as soon as menu-art-2 lands; exits west with art2OffsetX on PLAY.
+    const MENU_ART2_ENTRY_DELAY_MS = 300;
+    const MENU_ART2_ENTRY_DUR_MS = 800;
+    const MENU_GAME_TITLE_SLIDE_MS = 720;
+    function drawMenuGameTitle() {
+      try {
+        const img = (typeof menuGameTitleImg !== "undefined") ? menuGameTitleImg : null;
+        if (!img || !((img.naturalWidth || img.width) > 0)) return;
+        const titleW = img.naturalWidth || img.width;
+        const titleH = img.naturalHeight || img.height;
+        const now = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+        if (!window.__menuStartupMs) window.__menuStartupMs = now;
+        const art2LandedAt = window.__menuStartupMs + MENU_ART2_ENTRY_DELAY_MS + MENU_ART2_ENTRY_DUR_MS;
+        const entryElapsed = Math.max(0, now - art2LandedAt);
+        const entryT = Math.max(0, Math.min(1, entryElapsed / MENU_GAME_TITLE_SLIDE_MS));
+        const entryEase = 1 - Math.pow(1 - entryT, 3);
+        const startX = -titleW - 28;
+        const finalX = 0;
+        const entryX = finalX + (startX - finalX) * (1 - entryEase);
+        const exitX = (typeof __oomooMenuScene !== "undefined" && __oomooMenuScene)
+          ? (__oomooMenuScene.art2OffsetX || 0)
+          : 0;
+        const x = entryX + exitX;
+        const y = 0;
+        if (x + titleW <= 0) return;
+        // Keep hidden off-west until art-2 has landed and slide starts
+        if (now < art2LandedAt) return;
+        ctx.save();
+        ctx.globalAlpha = 1;
+        ctx.drawImage(img, x, y, titleW, titleH);
+        ctx.restore();
+      } catch (_) {}
+    }
+    function drawMenuOomooverseTag() {
+      try {
+        const offX = (typeof __oomooMenuScene !== "undefined" && __oomooMenuScene)
+          ? (__oomooMenuScene.art2OffsetX || 0)
+          : 0;
+        drawOomooverseTag(ctx, offX, OOMOOVERSE_TAG_ALPHA);
+      } catch (_) {}
     }
     function isMenuArtCarryoverVisible() {
       if (!menuBackground.layer2 || !__oomooMenuScene || !__oomooMenuScene.carryIntoLevel1) return false;
@@ -38161,6 +38340,8 @@ void main(){
       const dt = Math.max(0, (tNow - lastMs) / 1000);
       __oomooMenuScene.art2ExitLastMs = tNow;
       __oomooMenuScene.art2OffsetX = (__oomooMenuScene.art2OffsetX || 0) - (1440 * dt);
+      __oomooMenuScene.art3OffsetX = (__oomooMenuScene.art3OffsetX || 0) - (964.8 * dt);
+      __oomooMenuScene.art4OffsetX = (__oomooMenuScene.art4OffsetX || 0) - (1771.2 * dt);
       if (!isMenuArt2Visible()) {
         __oomooMenuScene.art2ExitStarted = false;
       }
@@ -38409,6 +38590,8 @@ void main(){
         __oomooMenuScene.artOffsetY = 0;
         __oomooMenuScene.art2OffsetX = 0;
         __oomooMenuScene.art2OffsetY = 0;
+        __oomooMenuScene.art3OffsetX = 0;
+        __oomooMenuScene.art4OffsetX = 0;
         __oomooMenuScene.artScrollStarted = false;
         __oomooMenuScene.artScrollStartMs = 0;
         __oomooMenuScene.artScrollLastMs = 0;
@@ -43689,19 +43872,46 @@ octx.globalCompositeOperation = 'source-over';
       } catch (e) {}
     }
     // Global weapon HUD policy:
-    // - Blue laser + Tractor Beam are ALWAYS available (no forge).
-    // - Red / EMP / Cyber-Takeover appear in HUD/scroll ONLY after forging 3 minerals for that weapon.
+    // - Blue laser + Tractor Beam are ALWAYS available (no forge). Tractor = right-click only.
+    // - EMP / Red / Cyber-Takeover appear in HUD scroll + number keys ONLY after forging that mineral.
     const __weaponModeOrder = ["blueLaser", "redLaser", "tractorBeam", "empLaser", "cyberTakeoverLaser"];
     const __weaponModeList = ["blueLaser"]; // reused; do not allocate on switch
-    function getAvailableWeaponModes() {
-      refreshWeaponUnlocked();
+    // Forge-only for picker/scroll/keys (ignore horde force-unlocks).
+    // L5 exterior still allows red without forge so that sequence stays playable.
+    function isWeaponModeForgedForPicker(mode) {
+      if (mode === "blueLaser") return true;
+      if (mode === "tractorBeam") return false; // not selectable via scroll/keys
+      if (mode === "redLaser") {
+        try {
+          if (currentLevel === 5 && typeof window !== "undefined" && (
+            !!window.__l5ExteriorMode || !!window.__screenSpaceMode || !!window.__l5ExteriorSequence
+          )) return true;
+        } catch (_) {}
+        const redSlot = __weaponSlotsByKey.red;
+        return !!(redSlot && redSlot.forged >= 1);
+      }
+      if (mode === "empLaser") {
+        const greenSlot = __weaponSlotsByKey.green;
+        return !!(greenSlot && greenSlot.forged >= 1);
+      }
+      if (mode === "cyberTakeoverLaser") {
+        const yellowSlot = __weaponSlotsByKey.yellow;
+        return !!(yellowSlot && yellowSlot.forged >= 1);
+      }
+      return false;
+    }
+    function getPickerWeaponModes() {
+      // Order matches number keys: 1 blue, 2 emp, 3 red, 4 override orb
       let n = 0;
       __weaponModeList[n++] = "blueLaser";
-      if (weaponUnlocked && weaponUnlocked.red) __weaponModeList[n++] = "redLaser";
-      if (weaponUnlocked && weaponUnlocked.emp) __weaponModeList[n++] = "empLaser";
-      if (weaponUnlocked && weaponUnlocked.cyberTakeover) __weaponModeList[n++] = "cyberTakeoverLaser";
+      if (isWeaponModeForgedForPicker("empLaser")) __weaponModeList[n++] = "empLaser";
+      if (isWeaponModeForgedForPicker("redLaser")) __weaponModeList[n++] = "redLaser";
+      if (isWeaponModeForgedForPicker("cyberTakeoverLaser")) __weaponModeList[n++] = "cyberTakeoverLaser";
       __weaponModeList.length = n;
       return __weaponModeList;
+    }
+    function getAvailableWeaponModes() {
+      return getPickerWeaponModes();
     }
     function weaponModeIndex(mode) {
       switch (mode) {
@@ -43715,16 +43925,11 @@ octx.globalCompositeOperation = 'source-over';
     }
     function isWeaponModeEnabled(mode) {
       if (mode === "blueLaser") return true;
-      if (mode === "redLaser") return !!weaponUnlocked.red;
-      if (mode === "tractorBeam") return !!weaponUnlocked.tractor;
-      if (mode === "empLaser") return !!weaponUnlocked.emp;
-      if (mode === "cyberTakeoverLaser") return !!weaponUnlocked.cyberTakeover;
-      return false;
+      if (mode === "tractorBeam") return true;
+      return isWeaponModeForgedForPicker(mode);
     }
     function getNextWeaponMode(curMode, dir) {
-      // dir: +1 forward, -1 backward
-      refreshWeaponUnlocked();
-      const modes = getAvailableWeaponModes();
+      const modes = getPickerWeaponModes();
       if (!modes.length) return "blueLaser";
       if (modes.length === 1) return modes[0];
       let idx = modes.indexOf(curMode);
@@ -43734,18 +43939,15 @@ octx.globalCompositeOperation = 'source-over';
     }
     function isWeaponModeAvailable(mode) {
       if (mode === "blueLaser") return true;
-      try { refreshWeaponUnlocked(); } catch (e) {}
-      if (mode === "redLaser") return !!weaponUnlocked.red;
-      if (mode === "tractorBeam") return !!weaponUnlocked.tractor;
-      if (mode === "empLaser") return !!weaponUnlocked.emp;
-      if (mode === "cyberTakeoverLaser") return !!weaponUnlocked.cyberTakeover;
-      return false;
+      if (mode === "tractorBeam") return true;
+      return isWeaponModeForgedForPicker(mode);
     }
     function ensureCurrentWeaponModeAvailable() {
       if (!isWeaponModeAvailable(currentWeaponMode)) {
         // Snap back to blue if the current mode is not forged/unlocked.
         try { startWeaponCursorMorph("blueLaser"); } catch (e) {}
         currentWeaponMode = "blueLaser";
+        try { if (typeof window !== "undefined") window.currentWeaponMode = currentWeaponMode; } catch (_) {}
         try { isMouseDown = false; } catch (e) {}
         try {
           if (redLaser) {
@@ -43767,6 +43969,74 @@ octx.globalCompositeOperation = 'source-over';
         } catch (e) {}
       }
     }
+    /** Equip a left-click weapon mode if forged; returns true if switched (or already on it). */
+    function selectWeaponMode(nextMode) {
+      try {
+        if (typeof window !== "undefined" && window.__manualPauseActive) return false;
+        if (typeof state !== "undefined" && state !== "playing") return false;
+      } catch (_) {}
+      if (!nextMode) return false;
+      if (nextMode === "tractorBeam") return false; // right-click only
+      if (!isWeaponModeForgedForPicker(nextMode)) return false;
+      if (nextMode === currentWeaponMode) return true;
+      try {
+        if (currentLevel === 3 && typeof window.isL3ObjectiveSequenceActive === "function" && window.isL3ObjectiveSequenceActive()) {
+          return false;
+        }
+      } catch (_) {}
+      try {
+        if (currentLevel === 5 && typeof window !== "undefined" && window.__l5WeaponScrollLocked) {
+          const isExteriorOrCinematic = !!(window.__l5ExteriorMode || window.__screenSpaceMode || (window.__l5CarrierExit && window.__l5CarrierExit.active));
+          if (isExteriorOrCinematic) return false;
+          window.__l5WeaponScrollLocked = false;
+        }
+      } catch (_) {}
+      startWeaponCursorMorph(nextMode);
+      if (nextMode === "redLaser") {
+        redLaserRingAnim.active = true;
+        redLaserRingAnim.direction = "in";
+        redLaserRingAnim.t0 = performance.now();
+        redLaserRingAnim.progress = 0;
+        redLaserRingAnim.lastUpdateTime = performance.now();
+      } else if (currentWeaponMode === "redLaser" && nextMode !== "redLaser") {
+        redLaserRingAnim.active = true;
+        redLaserRingAnim.direction = "out";
+        redLaserRingAnim.t0 = performance.now();
+        redLaserRingAnim.progress = 0;
+        redLaserRingAnim.lastUpdateTime = performance.now();
+      }
+      currentWeaponMode = nextMode;
+      try { if (typeof window !== "undefined") window.currentWeaponMode = currentWeaponMode; } catch (_) {}
+      try { ensureCurrentWeaponModeAvailable(); } catch (e) {}
+      isMouseDown = false;
+      if (redLaser) {
+        redLaser.leftMouseDown = false;
+        if (redLaser.state === "charging") {
+          try { stopSpartanLaserCharge(); } catch (_sle) {}
+          try { stopSpartanLaser(true); } catch (_sle) {}
+          redLaser.state = "idle";
+        } else if (redLaser.state === "firing" && currentWeaponMode !== "redLaser") {
+          try { stopSpartanLaser(false); } catch (_sle) {}
+        }
+      }
+      if (currentWeaponMode !== "tractorBeam") {
+        tractorBeam.leftMouseDown = false;
+        tractorBeam.__physicalDown = false;
+        if (tractorBeam.state === "holding") tractorRelease(false);
+      }
+      if (currentWeaponMode !== "empLaser") {
+        try { stopEMPCharge(); } catch (_ec) {}
+        empLaser.charging = false;
+        empLaser.chargeProgress = 0;
+      }
+      return true;
+    }
+    try {
+      if (typeof window !== "undefined") {
+        window.selectWeaponMode = selectWeaponMode;
+        window.isWeaponModeForgedForPicker = isWeaponModeForgedForPicker;
+      }
+    } catch (_) {}
     // ==========================
     // TRACTOR BEAM (BLUE FORGE)
     // ==========================
@@ -115470,6 +115740,40 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
     // Input
     const keys = { ArrowLeft:false, ArrowRight:false, ArrowUp:false, ArrowDown:false, a:false, d:false, w:false, s:false };
     window.addEventListener("keydown", (e) => {
+      // ESC: same pause as click-outside the game canvas (runs even when already checking pause)
+      try {
+        if (e.key === "Escape" || e.code === "Escape") {
+          e.preventDefault();
+          if (!(typeof window !== "undefined" && window.__manualPauseActive) &&
+              !(typeof window !== "undefined" && window.__coreRelicPanel && window.__coreRelicPanel.open)) {
+            try {
+              if (typeof enterPauseMenu === "function") enterPauseMenu("keydown.Escape");
+              else if (typeof __triggerManualPause === "function") __triggerManualPause("keydown.Escape");
+            } catch (_esc) {}
+          }
+          return;
+        }
+      } catch (_escOuter) {}
+      // Weapon number keys: 1 blue, 2 EMP, 3 red laser, 4 override orb (tractor = right-click only)
+      try {
+        const weaponKeyMap = {
+          "1": "blueLaser", Digit1: "blueLaser",
+          "2": "empLaser", Digit2: "empLaser",
+          "3": "redLaser", Digit3: "redLaser",
+          "4": "cyberTakeoverLaser", Digit4: "cyberTakeoverLaser"
+        };
+        const wantMode = weaponKeyMap[e.key] || weaponKeyMap[e.code];
+        if (wantMode && !(typeof window !== "undefined" && (window.__manualPauseActive || (window.__coreRelicPanel && window.__coreRelicPanel.open)))) {
+          if (!e.repeat) {
+            e.preventDefault();
+            try {
+              if (typeof selectWeaponMode === "function") selectWeaponMode(wantMode);
+              else if (typeof window !== "undefined" && typeof window.selectWeaponMode === "function") window.selectWeaponMode(wantMode);
+            } catch (_wk) {}
+          }
+          return;
+        }
+      } catch (_wkOuter) {}
       // GLOBAL MANUAL PAUSE: ignore all gameplay keys while paused.
       try {
         if (typeof window !== "undefined" && (window.__manualPauseActive || (window.__coreRelicPanel && window.__coreRelicPanel.open))) {
@@ -117782,87 +118086,13 @@ function l3Round3DrawGuards(ctx, orbitOnly) {
       if (currentLevel === 3 && typeof window.isL3ObjectiveSequenceActive === "function" && window.isL3ObjectiveSequenceActive()) {
         return;
       }
-      // Toggle between weapons (only forged/unlocked modes — blue is always available)
+      // Toggle between forged weapons only (blue always; EMP/red/orb after forge)
       if (e.deltaY !== 0) {
         const dir = e.deltaY > 0 ? 1 : -1;
-        let nextMode = (typeof getNextWeaponMode === "function")
+        const nextMode = (typeof getNextWeaponMode === "function")
           ? getNextWeaponMode(currentWeaponMode, dir)
-          : currentWeaponMode;
-        // Hard gate: never land on a weapon that hasn't been forged yet.
-        try {
-          if (typeof isWeaponModeAvailable === "function" && !isWeaponModeAvailable(nextMode)) {
-            nextMode = "blueLaser";
-          }
-        } catch (_) {}
-        if (nextMode === currentWeaponMode) return; // nothing to toggle
-        const __wsPerfT0 = (typeof window !== "undefined" && window.__debugWeaponSwitchPerf) ? performance.now() : 0;
-        const __wsPrev = currentWeaponMode;
-        // Start visual morph FIRST (so if you spam wheel, it continues smoothly)
-        startWeaponCursorMorph(nextMode);
-        // Trigger red laser ring bloom animation
-        if (nextMode === "redLaser") {
-          // Switching TO red laser - bloom in
-          redLaserRingAnim.active = true;
-          redLaserRingAnim.direction = "in";
-          redLaserRingAnim.t0 = performance.now();
-          redLaserRingAnim.progress = 0;
-          redLaserRingAnim.lastUpdateTime = performance.now();
-        } else if (currentWeaponMode === "redLaser" && nextMode !== "redLaser") {
-          // Switching FROM red laser - retract out
-          redLaserRingAnim.active = true;
-          redLaserRingAnim.direction = "out";
-          redLaserRingAnim.t0 = performance.now();
-          redLaserRingAnim.progress = 0;
-          redLaserRingAnim.lastUpdateTime = performance.now();
-        }
-        // Switch weapon mode immediately for gameplay logic
-        currentWeaponMode = nextMode;
-        // Mirror to window so code outside this closure can read the current mode.
-        try { if (typeof window !== "undefined") window.currentWeaponMode = currentWeaponMode; } catch (_) {}
-        // Safety: if something forced an unavailable mode, snap back.
-        try { ensureCurrentWeaponModeAvailable(); } catch (e) {}          // Always stop continuous firing when changing weapons
-        isMouseDown = false;
-        if (redLaser) {
-          redLaser.leftMouseDown = false;
-          if (redLaser.state === "charging") {
-            try { stopSpartanLaserCharge(); } catch (_sle) {}
-            try { stopSpartanLaser(true); } catch (_sle) {}
-            redLaser.state = "idle";
-          }
-        }
-        // Cancel tractor beam if switching away
-        if (currentWeaponMode !== "tractorBeam") {
-          tractorBeam.leftMouseDown = false;
-          tractorBeam.__physicalDown = false;
-          if (tractorBeam.state === "holding") tractorRelease(false);
-        }
-        // Cancel EMP charge if switching away
-        if (currentWeaponMode !== "empLaser") {
-          try { stopEMPCharge(); } catch (_ec) {}
-          empLaser.charging = false;
-          empLaser.chargeProgress = 0;
-        }
-        if (currentWeaponMode !== "cyberTakeoverLaser") {
-          // no charge state to clear
-        }
-        // Cancel red laser if switching away
-        if (currentWeaponMode !== "redLaser" && redLaser.state !== "idle") {
-          redLaser.leftMouseDown = false;
-          if (redLaser.state === "charging") {
-            try { stopSpartanLaserCharge(); } catch (_sle) {}
-            try { stopSpartanLaser(true); } catch (_sle) {}
-            redLaser.state = "idle";
-          } else if (redLaser.state === "firing") {
-            // Cinematic power-down even on weapon switch
-            try { stopSpartanLaser(false); } catch (_sle) {}
-          }
-        }
-        if (__wsPerfT0) {
-          const dt = performance.now() - __wsPerfT0;
-          if (dt > 5) {
-            console.log("[WEAPON SWITCH] dt=" + dt.toFixed(2) + "ms from=" + __wsPrev + " to=" + nextMode);
-          }
-        }
+          : "blueLaser";
+        if (typeof selectWeaponMode === "function") selectWeaponMode(nextMode);
       }
     }
     // Listen on window so scrolling works even if a HUD overlay captures the wheel.
@@ -135273,6 +135503,8 @@ function deactivateLevel3Bubble() {
           __oomooMenuScene.artOffsetY = 0;
           __oomooMenuScene.art2OffsetX = 0;
           __oomooMenuScene.art2OffsetY = 0;
+          __oomooMenuScene.art3OffsetX = 0;
+          __oomooMenuScene.art4OffsetX = 0;
           __oomooMenuScene.artScrollStarted = false;
           __oomooMenuScene.art2ExitStarted = false;
           __oomooMenuScene.carryIntoLevel1 = false;
@@ -147688,6 +147920,8 @@ function deactivateLevel3Bubble() {
       carryIntoLevel1: false,
       art2OffsetX: 0,
       art2OffsetY: 0,
+      art3OffsetX: 0,
+      art4OffsetX: 0,
       art2ExitStartMs: 0,
       art2ExitLastMs: 0,
       art2ExitStarted: false
@@ -148283,6 +148517,8 @@ function deactivateLevel3Bubble() {
       __oomooMenuScene.artOffsetY = 0;
       __oomooMenuScene.art2OffsetX = 0;
       __oomooMenuScene.art2OffsetY = 0;
+      __oomooMenuScene.art3OffsetX = 0;
+      __oomooMenuScene.art4OffsetX = 0;
       __oomooMenuScene.artScrollStarted = false;
       __oomooMenuScene.artScrollStartMs = 0;
       __oomooMenuScene.artScrollLastMs = 0;
@@ -158363,6 +158599,7 @@ if (_isLB) {
           // Keep menu overlays BEHIND Menu-art-1 on the start screen
           try { drawGameplayLensOverlay(); } catch (_) {}
           // drawDynamicVignette removed ? single vignette only
+          drawMenuArt3TentacleBack(); // Menu-art-3 behind PLAY/HORDE/SETTINGS words, offset for sway edge
           drawPlayButton();       // Main menu labels stay behind Menu-art-1
           drawMenuArtTop();       // Menu-art-1 sits behind the news banner on the start screen
           // Today's News Banner: 33px tall, behind menu-art-2 but in front of menu-art-1
@@ -158445,6 +158682,9 @@ if (_isLB) {
             ctx.restore();
           } catch (_tnbErr) {}
           drawMenuArtBottomLeft(); // Menu-art-2 (Oomga character) sits in front of the news banner
+          try { drawMenuOomooverseTag(); } catch (_) {}
+          try { drawMenuGameTitle(); } catch (_) {}
+          drawMenuArt4TentacleFront(); // Menu-art-4 above title, top-left flush, seaweed sway
           try { drawMainMenuNowPlayingNotification(performance.now()); } catch (_) {}
           // Dust is in front of news banner but behind word selections
           try { drawDustStreaks(); } catch (_) {}
